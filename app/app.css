@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Neue Montreal", Arial, sans-serif;
+  --font-display: "Manrope", Arial, sans-serif;
+}
+
+@font-face { font-family: "Neue Montreal"; src: url("/egd-aftersale/fonts/ppneuemontreal-book.woff2") format("woff2"); font-display: swap; font-weight: 400; }
+@font-face { font-family: "Neue Montreal"; src: url("/egd-aftersale/fonts/ppneuemontreal-bold.woff2") format("woff2"); font-display: swap; font-weight: 700; }
+@font-face { font-family: "Panchang"; src: url("/egd-aftersale/fonts/Panchang-Semibold.woff2") format("woff2"); font-display: swap; font-weight: 600; }
+@font-face { font-family: "Panchang"; src: url("/egd-aftersale/fonts/Panchang-Bold.woff2") format("woff2"); font-display: swap; font-weight: 700; }
+@font-face { font-family: "Manrope"; src: url("/eb-cars/fonts/Manrope-Regular.woff2") format("woff2"); font-display: swap; font-weight: 400; }
+@font-face { font-family: "Manrope"; src: url("/eb-cars/fonts/Manrope-Bold.woff2") format("woff2"); font-display: swap; font-weight: 700; }
+@font-face { font-family: "Bank Gothic"; src: url("/enlace-egd/fonts/BankGothic Md BT.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Michroma"; src: url("/eb-cars/fonts/Michroma-Regular.woff2") format("woff2"); font-display: swap; }
+
+:root { color-scheme: dark; }
+
+html { background: #101113; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background: #101113;
+  color: #f2f0eb;
+}
+
+a { text-underline-offset: 0.2em; }
+::selection { background: #d8d5ce; color: #101113; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}

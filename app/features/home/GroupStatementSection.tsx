@@ -1,0 +1,3 @@
+export function GroupStatementSection() {
+  return <section className="mx-auto max-w-[1400px] px-5 py-28 sm:px-8 sm:py-36"><div className="max-w-5xl"><p className="max-w-4xl font-[family-name:var(--font-display)] text-[clamp(1.9rem,3.7vw,3.6rem)] font-semibold leading-[1.02] tracking-[-0.06em] text-white">Más de veinte años de experiencia en el sector automotriz nos permiten acompañar cada decisión desde distintas especialidades.</p><p className="mt-8 max-w-xl text-lg leading-8 text-white/60">Grupo EGD conecta empresas con una misma exigencia: brindar atención profesional, transparente y a la altura de cada cliente.</p></div></section>
+}
