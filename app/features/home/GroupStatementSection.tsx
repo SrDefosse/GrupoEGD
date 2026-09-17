@@ -1,7 +1,7 @@
 const specialties = ["Selección", "Protección", "Cuidado", "Seguridad"];
 
 export function GroupStatementSection() {
-  return <section aria-labelledby="vision-title" className="border-y border-white/10 bg-[#15161a]">
+  return <section aria-labelledby="vision-title" className="border-y border-white/10 bg-egd-raised">
     <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 sm:py-32">
       <div className="max-w-5xl">
         <h2 id="vision-title" className="max-w-5xl font-[family-name:var(--font-display)] text-[clamp(2.2rem,4.5vw,4.6rem)] font-semibold leading-[.97] tracking-[-.075em]">Más de veinte años de experiencia nos permiten acompañar cada decisión desde distintas especialidades.</h2>

@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useGSAP } from "@gsap/react";
+import { gsap } from "../../shared/lib/gsap.client";
+import { getLenis } from "../../shared/lib/smooth-scroll";
 
 const services = [
   { number: "01", title: "Compra y venta", description: "Selección de unidades y acompañamiento para tomar decisiones informadas, desde la búsqueda hasta la venta de un vehículo.", image: "/images/services/compra-venta.png" },
@@ -8,7 +11,51 @@ const services = [
 ];
 
 export function GroupServicesSection() {
+  const root = useRef<HTMLElement>(null);
+  const firstRun = useRef(true);
   const [activeIndex, setActiveIndex] = useState(1);
 
-  return <section aria-labelledby="servicios-title" className="bg-[#111214] py-28 sm:py-36"><div className="mx-auto grid max-w-[1400px] gap-16 px-5 sm:px-8 lg:grid-cols-[.76fr_1.24fr]"><div className="lg:sticky lg:top-28 lg:h-fit"><p className="text-sm text-white/45">Especialidades</p><h2 id="servicios-title" className="mt-5 max-w-xl font-[family-name:var(--font-display)] text-[clamp(2.4rem,4.3vw,4.6rem)] font-semibold leading-[.94] tracking-[-.075em]">Un grupo preparado para acompañar el ciclo completo de tu auto.</h2><p className="mt-8 max-w-md text-lg leading-8 text-white/60">Cada empresa aporta conocimiento específico; juntas permiten acompañar más momentos de la experiencia automotriz.</p></div><div className="border-t border-white/20">{services.map((service, index) => { const active = activeIndex === index; return <button type="button" key={service.title} aria-expanded={active} onClick={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onMouseEnter={() => setActiveIndex(index)} className={`relative isolate grid w-full cursor-pointer overflow-hidden border-b border-white/20 text-left transition-[min-height,padding] duration-500 ease-out sm:grid-cols-[5rem_1fr_auto] sm:items-start ${active ? "min-h-72 gap-5 py-9" : "min-h-24 gap-5 py-7"}`}><img src={service.image} alt="" aria-hidden="true" className={`service-row-image absolute inset-0 z-0 size-full object-cover object-center ${active ? "service-row-image--active" : ""}`} /><div className={`service-row-veil absolute inset-0 z-[15] transition-opacity duration-500 ${active ? "opacity-100" : "opacity-0"}`} /><p className={`relative z-20 text-2xl transition-colors duration-300 ${active ? "text-[#3c8cff]" : "text-white/40"}`}>{service.number}</p><div className="relative z-20"><h3 className="text-[clamp(1.7rem,2.3vw,2.5rem)] font-medium leading-tight tracking-[-.055em]">{service.title}</h3><p className={`max-w-md overflow-hidden leading-7 text-white/75 transition-[max-height,margin,opacity] duration-500 ${active ? "mt-7 max-h-40 opacity-100" : "mt-0 max-h-0 opacity-0"}`}>{service.description}</p></div><span aria-hidden="true" className={`relative z-20 text-3xl transition-all duration-300 ${active ? "text-[#3c8cff]" : "text-white/55"}`}>→</span></button>; })}</div></div></section>;
+  // Solo la altura del panel altera el layout, y GSAP interrumpe la animación
+  // anterior (`overwrite`) al cambiar de fila: recorrer la lista con el cursor
+  // ya no encadena varias transiciones de alto simultáneas.
+  useGSAP(() => {
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const instant = firstRun.current || reduce;
+    firstRun.current = false;
+
+    gsap.utils.toArray<HTMLElement>("[data-service-row]").forEach((row, index) => {
+      const active = index === activeIndex;
+      const panel = row.querySelector<HTMLElement>("[data-service-panel]");
+      const image = row.querySelector<HTMLElement>("[data-service-image]");
+      const veil = row.querySelector<HTMLElement>("[data-service-veil]");
+
+      gsap.to(panel, { height: active ? "auto" : 0, opacity: active ? 1 : 0, duration: instant ? 0 : 0.5, ease: "power2.out", overwrite: "auto" });
+      gsap.to(image, { opacity: active ? 0.72 : 0, scale: active ? 1.04 : 1.1, duration: instant ? 0 : 0.6, ease: "power2.out", overwrite: "auto" });
+      gsap.to(veil, { opacity: active ? 1 : 0, duration: instant ? 0 : 0.45, ease: "power1.out", overwrite: "auto" });
+    });
+  }, { scope: root, dependencies: [activeIndex] });
+
+  // Al desplazarse, la página se mueve bajo un cursor quieto y dispara
+  // `pointerenter` en filas que nadie señaló. Se ignora ese caso.
+  const handlePointerEnter = (index: number) => (event: React.PointerEvent) => {
+    if (event.pointerType !== "mouse") return;
+    if (getLenis()?.isScrolling) return;
+    setActiveIndex(index);
+  };
+
+  return <section ref={root} aria-labelledby="servicios-title" className="bg-egd-base py-28 sm:py-36">
+    <div className="mx-auto grid max-w-[1400px] gap-16 px-5 sm:px-8 lg:grid-cols-[.76fr_1.24fr]">
+      <div className="lg:sticky lg:top-28 lg:h-fit"><p className="text-sm text-white/45">Especialidades</p><h2 id="servicios-title" className="mt-5 max-w-xl font-[family-name:var(--font-display)] text-[clamp(2.4rem,4.3vw,4.6rem)] font-semibold leading-[.94] tracking-[-.075em]">Un grupo preparado para acompañar el ciclo completo de tu auto.</h2><p className="mt-8 max-w-md text-lg leading-8 text-white/60">Cada empresa aporta conocimiento específico; juntas permiten acompañar más momentos de la experiencia automotriz.</p></div>
+      <div className="border-t border-white/20">{services.map((service, index) => { const active = activeIndex === index; return <button type="button" key={service.title} data-service-row aria-expanded={active} onClick={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onPointerEnter={handlePointerEnter(index)} className="relative isolate grid min-h-24 w-full cursor-pointer gap-5 overflow-hidden border-b border-white/20 py-7 text-left sm:grid-cols-[5rem_1fr_auto] sm:items-start">
+        <img src={service.image} alt="" aria-hidden="true" decoding="async" data-service-image className="service-row-image absolute inset-0 z-0 size-full object-cover object-center" />
+        <div data-service-veil className="service-row-veil absolute inset-0 z-[15]" />
+        <p className={`relative z-20 text-2xl transition-colors duration-300 ${active ? "text-egd-accent" : "text-white/40"}`}>{service.number}</p>
+        <div className="relative z-20">
+          <h3 className="text-[clamp(1.7rem,2.3vw,2.5rem)] font-medium leading-tight tracking-[-.055em]">{service.title}</h3>
+          <div data-service-panel className="h-0 overflow-hidden opacity-0"><p className="max-w-md pt-7 leading-7 text-white/75">{service.description}</p></div>
+        </div>
+        <span aria-hidden="true" className={`relative z-20 text-3xl transition-colors duration-300 ${active ? "text-egd-accent" : "text-white/55"}`}>→</span>
+      </button>; })}</div>
+    </div>
+  </section>;
 }

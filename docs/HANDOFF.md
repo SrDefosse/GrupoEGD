@@ -33,10 +33,55 @@ corporativa. El hero de Nosotros utiliza el asset de Grupo EGD sin pattern.
 `GroupStatementSection` conserva la composición editorial original sin la columna
 ni línea lateral derecha. `GroupServicesSection` es interactiva: al pasar el cursor, enfocar o activar una
 fila, la fila se expande y muestra descripción y fotografía nítida. La fotografía
-debe fundirse explícitamente con `#111214`: el
+debe fundirse explícitamente con el fondo base `egd-base`: el
 velo es sólido en los extremos y se vuelve más transparente hacia el centro. Se
 debe preservar el control de teclado si se ajusta esta interacción. `hero-nosotros-taller.png` es exclusivo de Nosotros y no debe
 reutilizarse en otra composición.
+
+## Contenido: fuentes únicas
+
+`app/shared/content/grupo.ts` guarda los datos institucionales (dirección,
+horarios, teléfonos, correos, redes, cifras, misión, visión, valores) y
+`app/features/empresas/companies.ts` la ficha de cada empresa. El encabezado, el
+pie, la retícula de Inicio, el índice de Empresas, las cuatro páginas de empresa
+y el mapa B2B leen de ahí. No dupliques estos datos en un componente.
+
+Lo verificado se transcribió de `egdautomoviles.com` el 2026-09-17; la filosofía
+sale de los brandbooks; misión, visión, valores y los textos «para empresas» son
+borrador nuestro. Qué falta confirmar está en `docs/GOTCHAS.md` (G05) y en la
+sesión `2026-09-17_contenido-de-empresas-b2b-y-reticula.md`.
+
+## Estructura de una página de empresa
+
+Cada empresa responde, en este orden, a lo que pidió el cliente: hero, qué hace
+y servicios, qué tipo de autos vende (si comercializa unidades), proceso,
+filosofía, para empresas, galería, dónde estamos y navegación a las otras tres.
+Los bloques compartidos viven en `app/features/empresas/CompanySections.tsx` y
+reciben el color de marca por `company.accent`, en línea.
+
+El caso B2B —cómo el grupo atiende a una agencia o una flotilla, y con qué
+empresa se resuelve cada necesidad— está en `BusinessSolutionsSection` y aparece
+en Inicio, Empresas y Servicios. Se resolvió dentro de las nueve páginas
+contratadas en `Alcance.md`; no se abrió una ruta nueva.
+
+## Fondo base y rampa de superficie
+
+El color de fondo principal es `#1d2433`, declarado como token `egd-base` en
+`app/app.css`. La rampa completa (`egd-deep`, `egd-base`, `egd-raised`,
+`egd-panel`, `egd-ink`, `egd-bone`, `egd-accent`) reemplazó a los hex neutros que
+estaban repartidos por los componentes. Usa los tokens, no hex nuevos; las
+paletas de marca siguen dentro de su feature.
+
+## Scroll suave
+
+El sitio usa Lenis 1.3.26 desde `app/shared/lib/smooth-scroll.tsx`, con scroll
+táctil nativo en móvil e interpolación por `lerp` para que el trackpad no se
+sienta desfasado. Las restricciones que impone están en `docs/GOTCHAS.md` (G04).
+
+La animación de `GroupServicesSection` la controla GSAP: el alto lo produce un
+solo panel interior (`height: 0 ↔ auto`) y el hover se ignora mientras Lenis
+reporta `isScrolling`, porque la página desplazándose bajo un cursor quieto
+disparaba `pointerenter` en filas que nadie señaló.
 
 ## Siguiente paso recomendado
 
@@ -48,6 +93,17 @@ reutilizarse en otra composición.
    una fuente alternativa.
 3. Haz una revisión visual humana del layout base cuando se agregue el primer
    sistema visual. La validación debe comparar contra los assets aprobados.
+4. **Pendiente de revisión humana (2026-09-17):** el fondo `#1d2433` y su rampa
+   se validaron solo por código. Falta aprobar el contraste de `egd-raised` y
+   `egd-panel` contra los assets de marca, el contraste del texto en las
+   secciones claras (`egd-bone`), y probar la sensación del scroll suave en un
+   trackpad real y en un teléfono. También falta revisar el rediseño de la
+   retícula de empresas y las páginas de empresa ampliadas.
+5. **Pendiente del cliente (2026-09-17):** confirmar datos de contacto; aprobar
+   misión, visión y valores; entregar material de CENTUR (niveles,
+   certificaciones, proveedores) y de EB Cars (inventario, precios, dirección);
+   definir si cada empresa tiene dirección propia; y decidir si la paleta actual
+   de la página de EB Cars sustituye a la de su brandbook.
 
 ## Decisión vigente sobre CENTUR
 
@@ -61,3 +117,22 @@ la hipótesis visual queda documentada en `docs/BRANDING.md`.
 npm run typecheck
 npm run build
 ```
+
+## Regla de composición: una familia de retícula por sección
+
+El sitio tuvo un problema de retículas repetidas (ver la sesión
+`2026-09-17_pasada-de-diseno-anti-repeticion.md`). Al agregar una sección,
+respeta estas reglas:
+
+- Ninguna página repite una familia de retícula. Si ya hay una lista de filas con
+  filete, la siguiente sección usa otra cosa: retícula asimétrica, cita
+  destacada, tira numerada, banda a sangre o tipografía sobre filetes.
+- Las tarjetas se usan solo cuando la elevación comunica jerarquía real. Por
+  omisión, agrupa con `border-t`, filetes o aire.
+- Nada de tres tarjetas iguales en fila.
+- Máximo tres rótulos en versalitas o `text-white/45` sobre titulares por página.
+  Si el titular basta, no pongas rótulo.
+- Cero guiones largos en texto visible. Usa coma, punto o paréntesis.
+- Nada de puntos de color decorativos ni etiquetas superpuestas sobre fotografías.
+- Un solo rótulo por intención de CTA. El contacto general se llama `Contacto` en
+  todo el sitio; `Plantear un proyecto` es exclusivo del bloque B2B.

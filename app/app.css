@@ -3,6 +3,15 @@
 @theme {
   --font-sans: "Manrope", Arial, sans-serif;
   --font-display: "Manrope", Arial, sans-serif;
+
+  /* Rampa de superficie de Grupo EGD. `egd-base` es el fondo principal del sitio. */
+  --color-egd-deep: #151b27;
+  --color-egd-base: #1d2433;
+  --color-egd-raised: #232b3c;
+  --color-egd-panel: #293245;
+  --color-egd-ink: #f2f0eb;
+  --color-egd-bone: #d8d5ce;
+  --color-egd-accent: #3c8cff;
 }
 
 @font-face { font-family: "Neue Montreal"; src: url("/egd-aftersale/fonts/ppneuemontreal-book.woff2") format("woff2"); font-display: swap; font-weight: 400; }
@@ -16,41 +25,39 @@
 
 :root { color-scheme: dark; }
 
-html { background: #101113; scroll-behavior: smooth; }
+/* Lenis controla el desplazamiento suave: `scroll-behavior: smooth` competiría con él. */
+html { background: var(--color-egd-base); }
 body {
   margin: 0;
   min-width: 320px;
-  overflow-x: hidden;
-  background: #101113;
-  color: #f2f0eb;
+  /* `clip` y no `hidden`: `hidden` convertiría al body en contenedor de scroll y rompería Lenis. */
+  overflow-x: clip;
+  background: var(--color-egd-base);
+  color: var(--color-egd-ink);
   font-family: "Manrope", Arial, sans-serif;
 }
 
 a { text-underline-offset: 0.2em; }
-::selection { background: #d8d5ce; color: #101113; }
+::selection { background: var(--color-egd-bone); color: var(--color-egd-base); }
 
-/* La fotografía se funde con #111214 en ambos extremos: el centro conserva detalle. */
+/* La fotografía se funde con `egd-base` en ambos extremos: el centro conserva detalle.
+   La animación la controla GSAP; aquí solo queda el estado inicial. */
 .service-row-image {
   opacity: 0;
-  transform: scale(1.08);
-  transition: opacity 700ms ease, transform 700ms ease;
-}
-
-.service-row-image--active {
-  opacity: 0.72;
-  transform: scale(1.04);
+  will-change: opacity, transform;
 }
 
 .service-row-veil {
+  opacity: 0;
   background: linear-gradient(
     90deg,
-    #111214 0%,
-    #111214 13%,
-    rgba(17, 18, 20, 0.97) 24%,
-    rgba(17, 18, 20, 0.64) 43%,
-    rgba(17, 18, 20, 0.2) 60%,
-    rgba(17, 18, 20, 0.65) 78%,
-    #111214 100%
+    #1d2433 0%,
+    #1d2433 13%,
+    rgba(29, 36, 51, 0.97) 24%,
+    rgba(29, 36, 51, 0.64) 43%,
+    rgba(29, 36, 51, 0.2) 60%,
+    rgba(29, 36, 51, 0.65) 78%,
+    #1d2433 100%
   );
 }
 
