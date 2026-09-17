@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Neue Montreal", Arial, sans-serif;
+  --font-sans: "Manrope", Arial, sans-serif;
   --font-display: "Manrope", Arial, sans-serif;
 }
 
@@ -23,10 +23,36 @@ body {
   overflow-x: hidden;
   background: #101113;
   color: #f2f0eb;
+  font-family: "Manrope", Arial, sans-serif;
 }
 
 a { text-underline-offset: 0.2em; }
 ::selection { background: #d8d5ce; color: #101113; }
+
+/* La fotografía se funde con #111214 en ambos extremos: el centro conserva detalle. */
+.service-row-image {
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 700ms ease, transform 700ms ease;
+}
+
+.service-row-image--active {
+  opacity: 0.72;
+  transform: scale(1.04);
+}
+
+.service-row-veil {
+  background: linear-gradient(
+    90deg,
+    #111214 0%,
+    #111214 13%,
+    rgba(17, 18, 20, 0.97) 24%,
+    rgba(17, 18, 20, 0.64) 43%,
+    rgba(17, 18, 20, 0.2) 60%,
+    rgba(17, 18, 20, 0.65) 78%,
+    #111214 100%
+  );
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }

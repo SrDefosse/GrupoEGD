@@ -7,5 +7,5 @@ import { StandardsSection } from "./StandardsSection";
 import { HomeContactSection } from "./HomeContactSection";
 
 export function HomePage() {
-  return <div className="overflow-x-hidden"><HomeHeroSection /><GroupStatementSection /><CompanyStackSection /><ExperienceSection /><GroupServicesSection /><StandardsSection /><HomeContactSection /></div>;
+  return <div className="overflow-x-clip"><HomeHeroSection /><GroupStatementSection /><CompanyStackSection /><ExperienceSection /><GroupServicesSection /><StandardsSection /><HomeContactSection /></div>;
 }
