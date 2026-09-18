@@ -1,6 +1,6 @@
 import type { ComponentType } from "react";
 import { Link } from "react-router";
-import { PiArrowRight, PiCarProfile, PiChatCircleText, PiFileText, PiKey, PiListChecks, PiMegaphoneSimple, PiShieldCheck, PiSparkle, PiStack, PiSun, PiWrench } from "react-icons/pi";
+import { PiArrowRight, PiCarProfile, PiChatCircleText, PiFileText, PiKey, PiListChecks, PiMagnifyingGlass, PiMegaphoneSimple, PiShieldCheck, PiSparkle, PiStack, PiSun, PiWrench } from "react-icons/pi";
 
 import { otherCompanies, type Company, type ServicioIcono } from "./companies";
 
@@ -48,6 +48,7 @@ const iconosDeServicio: Record<ServicioIcono, ComponentType<{ className?: string
   ventana: PiSun,
   chat: PiChatCircleText,
   lista: PiListChecks,
+  lupa: PiMagnifyingGlass,
 };
 
 /**
@@ -123,10 +124,14 @@ export function CompanyOverviewSection({ company, mostrarServicios = true, leyen
  * El muro de marcas usa `flex-wrap` con celdas que crecen: con 19 marcas, cada
  * fila se reparte el ancho completo y no queda ninguna celda vacía, que es lo
  * que pasaría con un número fijo de columnas.
+ *
+ * Una empresa sin catálogo de marcas publica en su lugar `revision`: con qué
+ * criterio se revisa cada unidad. Así la sección responde algo concreto aunque
+ * no haya inventario que enseñar.
  */
 export function CompanyCatalogSection({ company }: { company: Company }) {
   if (!company.catalogo) return null;
-  const { titulo, nota, categorias, marcas } = company.catalogo;
+  const { titulo, nota, categorias, marcas, revision } = company.catalogo;
 
   return <section aria-labelledby={`${company.slug}-catalogo`} className="border-t border-white/15 bg-white/[0.03]">
     <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 sm:py-28">
@@ -136,6 +141,22 @@ export function CompanyCatalogSection({ company }: { company: Company }) {
       <div className="mt-12 flex flex-wrap gap-2">
         {categorias.map((categoria) => <span key={categoria} className="rounded-full border px-5 py-2.5 text-base text-white/85" style={{ borderColor: trazo(company) }}>{categoria}</span>)}
       </div>
+
+      {revision ? <div className="mt-16 rounded-3xl border border-white/10 bg-white/[0.02] px-8 py-10 sm:px-12 sm:py-12">
+        <h3 className="max-w-md text-xl font-medium leading-snug tracking-[-.03em]">Antes de ofrecerse, cada unidad pasa por tres revisiones.</h3>
+        <ul className="mt-10 grid gap-x-12 gap-y-10 md:grid-cols-3">
+          {revision.map((punto) => {
+            const Icono = iconosDeServicio[punto.icono];
+            return <li key={punto.titulo}>
+              <span className="grid size-11 place-items-center rounded-full border border-white/12 bg-white/[0.05]">
+                <Icono aria-hidden className="size-5 text-white/80" />
+              </span>
+              <p className="mt-6 text-lg tracking-[-.02em]">{punto.titulo}</p>
+              <p className="mt-3 leading-7 text-white/55">{punto.detalle}</p>
+            </li>;
+          })}
+        </ul>
+      </div> : null}
 
       {marcas.length > 0 ? <div className="mt-16 overflow-hidden rounded-3xl border border-white/10 bg-white/[0.02] px-6 py-8 sm:px-10 sm:py-10">
         <h3 className="text-[0.62rem] uppercase tracking-[0.3em] text-white/45">Marcas que ha comercializado</h3>

@@ -19,7 +19,7 @@
  */
 
 /** Clave de icono para cada servicio. El mapa a componentes vive en la vista. */
-export type ServicioIcono = "auto" | "documento" | "escudo" | "megafono" | "llave" | "herramienta" | "brillo" | "pelicula" | "ventana" | "chat" | "lista";
+export type ServicioIcono = "auto" | "documento" | "escudo" | "megafono" | "llave" | "herramienta" | "brillo" | "pelicula" | "ventana" | "chat" | "lista" | "lupa";
 
 export type Servicio = { titulo: string; icono: ServicioIcono };
 
@@ -39,8 +39,13 @@ export type Company = {
   filosofia: { arquetipo: string; enunciado: string; como: string };
   /** Cómo puede esta empresa atender a otra empresa (agencias, flotillas, corporativos). */
   paraEmpresas: { necesidad: string; respuesta: string };
-  /** Solo para las empresas que comercializan unidades. */
-  catalogo?: { titulo: string; nota: string; categorias: string[]; marcas: string[] };
+  /**
+   * Solo para las empresas que comercializan unidades.
+   *
+   * `revision` es para las que no publican un catálogo de marcas: en su lugar
+   * declaran con qué criterio se revisa cada unidad antes de ofrecerse.
+   */
+  catalogo?: { titulo: string; nota: string; categorias: string[]; marcas: string[]; revision?: { titulo: string; detalle: string; icono: ServicioIcono }[] };
   ubicacionPropiaPorConfirmar: boolean;
   accent: string;
   logo: string;
@@ -163,9 +168,17 @@ export const companies: Company[] = [
     },
     catalogo: {
       titulo: "Qué tipo de autos vende",
-      nota: "Perfil de unidades del segmento accesible. El inventario específico está pendiente de confirmación del cliente.",
-      categorias: ["Seminuevos", "Compactos", "Sedán", "SUV de entrada", "Primera compra"],
+      // No publiques aquí notas de proyecto. El inventario concreto sigue
+      // pendiente de que el cliente lo entregue: mientras tanto, la sección
+      // habla del perfil de unidad y del criterio de revisión, no de existencias.
+      nota: "Unidades del segmento accesible, revisadas con el mismo estándar del grupo antes de ofrecerse.",
+      categorias: ["Seminuevos", "Compactos", "Sedán", "SUV de entrada"],
       marcas: [],
+      revision: [
+        { titulo: "Física", detalle: "Carrocería, pintura, interiores y llantas: lo que se ve y lo que se siente al usar el auto todos los días.", icono: "lupa" },
+        { titulo: "Mecánica", detalle: "Motor, transmisión, frenos y suspensión, con diagnóstico previo a cualquier oferta.", icono: "herramienta" },
+        { titulo: "Legal", detalle: "Documentación, historial y situación del vehículo, revisados antes de ponerlo a la venta.", icono: "documento" },
+      ],
     },
     ubicacionPropiaPorConfirmar: true,
     accent: "#00568e",
