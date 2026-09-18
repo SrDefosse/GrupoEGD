@@ -16,6 +16,11 @@
   --color-egd-ink: #f2f0eb;
   --color-egd-bone: #d8d5ce;
   --color-egd-accent: #3c8cff;
+
+  /* Paleta aprobada de EB Cars. Se usa únicamente dentro de su página. */
+  --color-eb-cars-blue: #00568e;
+  --color-eb-cars-charcoal: #26272c;
+  --color-eb-cars-yellow: #f7e045;
 }
 
 @font-face { font-family: "Neue Montreal"; src: url("/egd-aftersale/fonts/ppneuemontreal-book.woff2") format("woff2"); font-display: swap; font-weight: 400; }

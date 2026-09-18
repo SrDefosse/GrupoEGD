@@ -79,3 +79,11 @@ patrón de la marca superpuesto. Dos ejemplos confirmados:
 Abre cualquier archivo de esas carpetas antes de renderizarlo; no lo elijas por
 el número. Las imágenes de `public/images/**` sí se generaron limpias para el
 sitio. Las piezas ya publicadas no se han auditado una por una.
+
+## G07 — No combines `translate-*` de Tailwind con el desplazamiento de GSAP
+
+Tailwind 4 puede aplicar `translate-x-full` mediante la propiedad CSS
+`translate`, separada de `transform`. GSAP anima `transform`, así que ambas
+traslaciones se acumulan: un sidebar puede terminar su tween en `x: 0` y seguir
+fuera del viewport. Si GSAP controla la entrada o salida, no asignes una clase
+`translate-*` estática al mismo elemento; inicialízalo con `gsap.set`.

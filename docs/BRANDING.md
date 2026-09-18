@@ -29,6 +29,13 @@ manuales finales entregados por diseño.
   patrón, aunque la muestra y la paleta no lo respaldan. No se incorpora rojo sin
   confirmación de diseño.
 
+## Decisiones implementadas
+
+- La página de EB Cars usa el azul principal `#00568E` como fondo. Conserva el
+  gris oscuro `#26272C` y el amarillo `#F7E045` de su paleta para contrastes y
+  llamados. Esta decisión sustituye el fondo anterior `#072630`, que no era un
+  color aprobado de la marca.
+
 ## Información requerida
 
 1. Brandbook y assets aprobados de CENTUR Blindajes.

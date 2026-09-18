@@ -13,6 +13,13 @@ hero sin imagen, galería 4:5, experiencia, servicios, principios y CTA final.
 Las cuatro páginas de empresas tienen composiciones propias, assets 4:5 y
 animaciones GSAP de baja intensidad para texto, imagen y scroll.
 
+La página de EB Cars ya usa el azul principal de su brandbook (`#00568E`) como
+fondo, con gris oscuro y amarillo de la misma paleta para los contrastes.
+
+La navegación móvil incluye un menú hamburguesa que abre un panel lateral con
+enlaces generales, empresas y Contacto. El panel se anima con GSAP y respeta la
+preferencia de movimiento reducido.
+
 La fuente de alcance define nueve páginas. Los brandbooks disponibles cubren tres
 de las cuatro empresas; CENTUR Blindajes sigue pendiente.
 

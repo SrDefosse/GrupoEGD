@@ -24,6 +24,11 @@ que cree un contenedor de scroll. El layout usa `overflow-x-clip` para evitarlo.
 El tipo global vigente es Manrope y `GroupStatementSection` es la composición
 editorial de visión y especialidades de Inicio.
 
+En móvil, `SiteHeader` muestra un botón hamburguesa que abre una barra lateral
+animada. Incluye enlaces generales, las cuatro empresas y Contacto; se cierra al
+navegar, al pulsar el velo, con Escape o con el botón X. El panel usa
+`data-lenis-prevent` para que su desplazamiento propio no interfiera con Lenis.
+
 `CompanyStackSection` y `GroupServicesSection` fueron rediseñados con una
 referencia visual proporcionada por el cliente: retícula asimétrica de empresas y
 lista editorial de especialidades, respectivamente. Los patterns de las tres
@@ -131,8 +136,8 @@ disparaba `pointerenter` en filas que nadie señaló.
 5. **Pendiente del cliente (2026-09-17):** confirmar datos de contacto; aprobar
    misión, visión y valores; entregar material de CENTUR (niveles,
    certificaciones, proveedores) y de EB Cars (inventario, precios, dirección);
-   definir si cada empresa tiene dirección propia; y decidir si la paleta actual
-   de la página de EB Cars sustituye a la de su brandbook.
+   y definir si cada empresa tiene dirección propia. La página de EB Cars ya usa
+   su azul de brandbook `#00568E`, documentado en `docs/BRANDING.md`.
 
 ## Decisión vigente sobre CENTUR
 

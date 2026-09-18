@@ -27,7 +27,7 @@ export function EbCarsPage() {
     gsap.from("[data-eb-piece]", { y: 42, opacity: 0, stagger: 0.12, duration: 0.85, ease: "power3.out", scrollTrigger: { trigger: "[data-eb-mosaic]", start: "top 78%" } });
   }, { scope: root });
 
-  return <main ref={root} className="bg-[#072630] text-egd-ink">
+  return <main ref={root} className="bg-eb-cars-blue text-egd-ink">
     {/*
       Hero a dos mitades a sangre, sin contenedor: la fotografía llega al borde
       del viewport y el titular vive dentro de un bloque amarillo que monta sobre
@@ -35,7 +35,8 @@ export function EbCarsPage() {
       encima; aquí la composición se parte y el color hace el trabajo, que es lo
       que corresponde a la marca accesible del grupo.
 
-      El amarillo `#F7E045` y el gris `#26272C` son de su brandbook. El titular va
+      El azul `#00568E`, el amarillo `#F7E045` y el gris `#26272C` son de su
+      brandbook. El titular va
       en Michroma, su tipografía principal.
     */}
     <section aria-labelledby="eb-cars-title" className="relative isolate">
@@ -48,13 +49,13 @@ export function EbCarsPage() {
           <div className="w-full">
             <img data-eb-intro src={company.logo} alt={company.nombre} className="max-h-9 max-w-48 brightness-0 invert" />
 
-            <h1 data-eb-intro id="eb-cars-title" className="relative z-10 mt-9 block rounded-2xl bg-[#f7e045] px-7 py-6 font-[family-name:var(--font-eb-cars)] text-[clamp(1.35rem,2.9vw,2.5rem)] leading-[1.32] tracking-[-.02em] text-[#26272c] sm:px-9 sm:py-8 lg:w-[calc(100%+6rem)]">{company.promesa}</h1>
+            <h1 data-eb-intro id="eb-cars-title" className="relative z-10 mt-9 block rounded-2xl bg-eb-cars-yellow px-7 py-6 font-[family-name:var(--font-eb-cars)] text-[clamp(1.35rem,2.9vw,2.5rem)] leading-[1.32] tracking-[-.02em] text-eb-cars-charcoal sm:px-9 sm:py-8 lg:w-[calc(100%+6rem)]">{company.promesa}</h1>
 
             <p data-eb-intro className="mt-10 max-w-md text-lg leading-8 text-white/75">El auto correcto se encuentra con una conversación clara: te explicamos cada paso, comparamos opciones y acompañamos la decisión sin presionarte.</p>
 
             <div data-eb-intro className="mt-10 flex flex-wrap items-center gap-3">
-              <Link to="/contacto" className="rounded-full bg-egd-ink px-6 py-3.5 text-sm font-semibold text-[#26272c] transition-transform duration-300 hover:-translate-y-1 active:translate-y-0">Contacto</Link>
-              <a href="#eb-cars-proceso" onClick={scrollToAnchor} className="rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold transition-colors hover:bg-white hover:text-[#072630]">Cómo compras aquí</a>
+              <Link to="/contacto" className="rounded-full bg-egd-ink px-6 py-3.5 text-sm font-semibold text-eb-cars-charcoal transition-transform duration-300 hover:-translate-y-1 active:translate-y-0">Contacto</Link>
+              <a href="#eb-cars-proceso" onClick={scrollToAnchor} className="rounded-full border border-white/30 px-6 py-3.5 text-sm font-semibold transition-colors hover:bg-white hover:text-eb-cars-charcoal">Cómo compras aquí</a>
             </div>
           </div>
         </div>
@@ -76,7 +77,7 @@ export function EbCarsPage() {
 
         <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-3">
           {values.map((value, index) => <li key={value} data-eb-piece>
-            <span aria-hidden="true" className="block h-0.5 w-7 bg-[#f7e045]" />
+            <span aria-hidden="true" className="block h-0.5 w-7 bg-eb-cars-yellow" />
             <span className="mt-5 block text-sm text-white/40">0{index + 1}</span>
             <p className="mt-3 text-lg leading-7 text-white/85">{value}</p>
           </li>)}
