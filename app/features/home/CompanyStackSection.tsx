@@ -49,7 +49,7 @@ export function CompanyStackSection() {
               <span aria-hidden="true" className="block h-0.5 w-10 transition-[width] duration-500 ease-out group-hover:w-24" style={{ backgroundColor: company.accent === "#6f7479" ? "rgba(255,255,255,.55)" : company.accent }} />
               <p className="mt-6 text-sm text-white/45">{company.categoria}</p>
               <p className="mt-4 max-w-md text-lg leading-8 text-white/70">{company.resumen}</p>
-              <ul className="mt-7 flex flex-wrap gap-2">{company.servicios.slice(0, 3).map((servicio) => <li key={servicio} className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/55">{servicio}</li>)}</ul>
+              <ul className="mt-7 flex flex-wrap gap-2">{company.servicios.slice(0, 3).map((servicio) => <li key={servicio.titulo} className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/55">{servicio.titulo}</li>)}</ul>
               <span className="mt-auto flex items-center gap-3 pt-9 text-sm font-medium text-egd-accent">
                 Conocer {company.nombreCorto}
                 <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">→</span>

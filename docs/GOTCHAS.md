@@ -34,6 +34,15 @@ autorizada. Antes de integrarlas, confirma licencia, archivos web y fallback.
 - No uses `lenis.stop()` para pausar animaciones: bloquea el scroll de la página.
 - Para reaccionar al scroll desde un componente, usa `getLenis()` en lugar de
   crear una segunda instancia.
+- **Los enlaces de ancla van con `scrollToAnchor`**, no con un `<a href="#...">`
+  pelado ni con la opción `anchors` de Lenis. Esa opción no llama a
+  `preventDefault`, así que el salto nativo del navegador se ejecuta después y
+  gana; y ese salto nativo aquí ignora el `scroll-margin-top` del destino, con lo
+  que el título queda tapado por el encabezado sticky. `scrollToAnchor` cancela
+  el salto y delega en Lenis, que sí respeta `scroll-margin-top`.
+- La compensación del encabezado la da `h1[id], h2[id], h3[id], section[id] {
+  scroll-margin-top: 6rem }` en `app.css`. Es el único mecanismo: no le agregues
+  además un `offset`, porque se suman.
 
 ## G05 — Origen del contenido de empresas y datos de contacto
 
@@ -53,5 +62,20 @@ editarlos, considera de dónde viene cada dato:
 - **Ausente a propósito:** no se publican certificaciones, normas de blindaje,
   niveles de protección, direcciones individuales por empresa ni inventario de
   EB Cars. G01 y G02 siguen aplicando: no los inventes para llenar un hueco.
-  `ubicacionPropiaPorConfirmar` marca a quién le falta dirección propia; mientras
-  sea `true`, la página muestra la sede del grupo.
+  `ubicacionPropiaPorConfirmar` marca a quién le falta dirección propia. Ese
+  campo ya no se renderiza: la ubicación quedó solo en Nosotros y en Contacto
+  (ver `docs/HANDOFF.md`), pero sigue registrando qué falta confirmar.
+
+## G06 — Las carpetas de marca mezclan fotografía y piezas de redes
+
+`public/<marca>/imgs/*.png` no es un banco de fotografía limpia. Junto a tomas
+utilizables hay piezas de redes sociales con copy quemado en el pixel y con el
+patrón de la marca superpuesto. Dos ejemplos confirmados:
+
+- `eb-cars/imgs/8.0.png`: lleva «TU PRÓXIMO AUTO TE ESTÁ ESPERANDO / COTIZA HOY
+  MISMO» impreso en la imagen.
+- `enlace-egd/imgs/3.0.png`: lleva el patrón de Enlace GD sobrepuesto.
+
+Abre cualquier archivo de esas carpetas antes de renderizarlo; no lo elijas por
+el número. Las imágenes de `public/images/**` sí se generaron limpias para el
+sitio. Las piezas ya publicadas no se han auditado una por una.

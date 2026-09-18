@@ -1,7 +1,6 @@
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "../../shared/lib/gsap.client";
-import { getLenis } from "../../shared/lib/smooth-scroll";
 
 const services = [
   { number: "01", title: "Compra y venta", description: "Selección de unidades y acompañamiento para tomar decisiones informadas, desde la búsqueda hasta la venta de un vehículo.", image: "/images/services/compra-venta.png" },
@@ -13,7 +12,8 @@ const services = [
 export function GroupServicesSection() {
   const root = useRef<HTMLElement>(null);
   const firstRun = useRef(true);
-  const [activeIndex, setActiveIndex] = useState(1);
+  const ultimaPosicion = useRef<{ x: number; y: number } | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   // Solo la altura del panel altera el layout, y GSAP interrumpe la animación
   // anterior (`overwrite`) al cambiar de fila: recorrer la lista con el cursor
@@ -35,18 +35,32 @@ export function GroupServicesSection() {
     });
   }, { scope: root, dependencies: [activeIndex] });
 
-  // Al desplazarse, la página se mueve bajo un cursor quieto y dispara
-  // `pointerenter` en filas que nadie señaló. Se ignora ese caso.
+  const recordarPosicion = (event: React.PointerEvent) => {
+    if (event.pointerType === "mouse") ultimaPosicion.current = { x: event.clientX, y: event.clientY };
+  };
+
+  /**
+   * Al desplazarse, la página se mueve bajo un cursor quieto y dispara
+   * `pointerenter` en filas que nadie señaló.
+   *
+   * Se distinguen los dos casos por la posición del cursor, no por un retardo:
+   * si las coordenadas son idénticas a las últimas conocidas, fue la página la
+   * que se movió. Si cambiaron, fue el cursor y la fila responde de inmediato.
+   */
   const handlePointerEnter = (index: number) => (event: React.PointerEvent) => {
     if (event.pointerType !== "mouse") return;
-    if (getLenis()?.isScrolling) return;
-    setActiveIndex(index);
+
+    const previa = ultimaPosicion.current;
+    const movioElCursor = !previa || previa.x !== event.clientX || previa.y !== event.clientY;
+    recordarPosicion(event);
+
+    if (movioElCursor) setActiveIndex(index);
   };
 
   return <section ref={root} aria-labelledby="servicios-title" className="bg-egd-base py-28 sm:py-36">
     <div className="mx-auto grid max-w-[1400px] gap-16 px-5 sm:px-8 lg:grid-cols-[.76fr_1.24fr]">
       <div className="lg:sticky lg:top-28 lg:h-fit"><p className="text-sm text-white/45">Especialidades</p><h2 id="servicios-title" className="mt-5 max-w-xl font-[family-name:var(--font-display)] text-[clamp(2.4rem,4.3vw,4.6rem)] font-semibold leading-[.94] tracking-[-.075em]">Un grupo preparado para acompañar el ciclo completo de tu auto.</h2><p className="mt-8 max-w-md text-lg leading-8 text-white/60">Cada empresa aporta conocimiento específico; juntas permiten acompañar más momentos de la experiencia automotriz.</p></div>
-      <div className="border-t border-white/20">{services.map((service, index) => { const active = activeIndex === index; return <button type="button" key={service.title} data-service-row aria-expanded={active} onClick={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onPointerEnter={handlePointerEnter(index)} className="relative isolate grid min-h-24 w-full cursor-pointer gap-5 overflow-hidden border-b border-white/20 py-7 text-left sm:grid-cols-[5rem_1fr_auto] sm:items-start">
+      <div className="border-t border-white/20" onPointerMove={recordarPosicion}>{services.map((service, index) => { const active = activeIndex === index; return <button type="button" key={service.title} data-service-row aria-expanded={active} onClick={() => setActiveIndex(index)} onFocus={() => setActiveIndex(index)} onPointerEnter={handlePointerEnter(index)} className="relative isolate grid min-h-24 w-full cursor-pointer gap-5 overflow-hidden border-b border-white/20 py-7 text-left sm:grid-cols-[5rem_1fr_auto] sm:items-start">
         <img src={service.image} alt="" aria-hidden="true" decoding="async" data-service-image className="service-row-image absolute inset-0 z-0 size-full object-cover object-center" />
         <div data-service-veil className="service-row-veil absolute inset-0 z-[15]" />
         <p className={`relative z-20 text-2xl transition-colors duration-300 ${active ? "text-egd-accent" : "text-white/40"}`}>{service.number}</p>

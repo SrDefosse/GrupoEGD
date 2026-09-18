@@ -25,7 +25,8 @@ export const matriz = {
   estado: "Guanajuato",
   codigoPostal: "37160",
   pais: "México",
-  mapa: "https://maps.google.com/?q=Circunvalaci%C3%B3n+Pte+798-A,+Jardines+del+Moral,+Le%C3%B3n,+Guanajuato+37160",
+  /** Enlace exacto proporcionado por el cliente. No lo sustituyas por una búsqueda armada a mano. */
+  mapa: "https://maps.app.goo.gl/ucSyJnNTKgnWPoWCA",
 };
 
 export const direccionCompleta = `${matriz.calle}, ${matriz.colonia}. ${matriz.ciudad}, ${matriz.estado}, ${matriz.pais} ${matriz.codigoPostal}`;
@@ -63,12 +64,13 @@ export const mision =
 export const vision =
   "Ser el grupo automotriz de referencia en el Bajío para quienes valoran su auto: un solo interlocutor capaz de resolver el ciclo completo de una unidad, con la especialización de cuatro empresas detrás.";
 
+/** El `id` permite asociar un icono en la vista sin acoplar este módulo a React. */
 export const valores = [
-  { titulo: "Transparencia", detalle: "Información directa y verificable en cada operación, sin lenguaje de lote ni presión de venta." },
-  { titulo: "Criterio", detalle: "Cada unidad y cada servicio se revisan con un estándar propio antes de recomendarlos." },
-  { titulo: "Especialización", detalle: "Cuatro empresas enfocadas, cada una experta en una parte concreta del ciclo del vehículo." },
-  { titulo: "Respaldo", detalle: "La relación continúa después de la entrega: mantenimiento, protección y seguimiento." },
-];
+  { id: "transparencia", titulo: "Transparencia", detalle: "Información directa y verificable en cada operación, sin lenguaje de lote ni presión de venta." },
+  { id: "criterio", titulo: "Criterio", detalle: "Cada unidad y cada servicio se revisan con un estándar propio antes de recomendarlos." },
+  { id: "especializacion", titulo: "Especialización", detalle: "Cuatro empresas enfocadas, cada una experta en una parte concreta del ciclo del vehículo." },
+  { id: "respaldo", titulo: "Respaldo", detalle: "La relación continúa después de la entrega: mantenimiento, protección y seguimiento." },
+] as const;
 
 /** Hitos verificables del sitio vigente del cliente. */
 export const cifras = [

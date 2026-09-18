@@ -36,7 +36,7 @@ export function CompanyGridSection() {
             </span>
           </div>
 
-          <ul className="space-y-3 lg:pt-11">{company.servicios.slice(0, 4).map((servicio) => <li key={servicio} className="leading-7 text-white/70">{servicio}</li>)}</ul>
+          <ul className="space-y-3 lg:pt-11">{company.servicios.slice(0, 4).map((servicio) => <li key={servicio.titulo} className="leading-7 text-white/70">{servicio.titulo}</li>)}</ul>
         </Link>
       </li>)}
     </ul>

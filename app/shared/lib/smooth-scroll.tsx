@@ -1,11 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, type MouseEvent } from "react";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
 
 import { gsap, ScrollTrigger } from "./gsap.client";
-
-/** Alto del encabezado sticky; los anclas deben detenerse por debajo de él. */
-const HEADER_OFFSET = 68;
 
 let instance: Lenis | null = null;
 
@@ -30,7 +27,30 @@ export function getLenis() {
  *   Lenis deja de suavizar y los saltos programáticos se vuelven inmediatos.
  * - `autoRaf: false` + `gsap.ticker`: un solo bucle de animación compartido con
  *   GSAP, en el orden correcto para ScrollTrigger.
+ * - Sin `anchors`: los enlaces de ancla se manejan con `scrollToAnchor`. La
+ *   opción de Lenis no llama a `preventDefault`, así que el salto nativo del
+ *   navegador se ejecutaba después y ganaba, ignorando `scroll-margin-top`.
  */
+/**
+ * Maneja un enlace de ancla dentro de la página.
+ *
+ * Es necesario porque el salto nativo del navegador ignora aquí el
+ * `scroll-margin-top` del destino y lo deja debajo del encabezado sticky. Al
+ * cancelarlo, tanto `lenis.scrollTo` como `scrollIntoView` sí lo respetan.
+ */
+export function scrollToAnchor(event: MouseEvent<HTMLAnchorElement>) {
+  const { hash } = event.currentTarget;
+  const destino = hash ? document.querySelector<HTMLElement>(hash) : null;
+  if (!destino) return;
+
+  event.preventDefault();
+  const lenis = getLenis();
+  if (lenis) lenis.scrollTo(destino);
+  else destino.scrollIntoView({ behavior: "smooth" });
+
+  window.history.replaceState(null, "", hash);
+}
+
 export function SmoothScroll() {
   useEffect(() => {
     const lenis = new Lenis({
@@ -38,7 +58,6 @@ export function SmoothScroll() {
       smoothWheel: true,
       syncTouch: false,
       allowNestedScroll: true,
-      anchors: { offset: -HEADER_OFFSET },
       stopInertiaOnNavigate: true,
       autoRaf: false,
     });

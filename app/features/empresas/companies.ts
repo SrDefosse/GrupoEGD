@@ -1,5 +1,3 @@
-import { matriz } from "../../shared/content/grupo";
-
 /**
  * Ficha de cada empresa del grupo. Es la fuente única para la retícula de
  * Inicio, el índice de Empresas, el bloque de navegación entre empresas y el
@@ -14,8 +12,16 @@ import { matriz } from "../../shared/content/grupo";
  *   personalidad provisional autorizada y no se le asigna color de marca.
  *
  * `ubicacionPropiaPorConfirmar` marca a las empresas cuya dirección individual
- * no está confirmada: hasta entonces se muestra la sede del grupo.
+ * no está confirmada. Hoy no se renderiza: las cuatro comparten la sede del
+ * grupo, así que la ubicación vive solo en Nosotros y en Contacto. El campo se
+ * conserva porque el cliente pidió ubicaciones por empresa y volverá a hacer
+ * falta en cuanto entregue direcciones propias.
  */
+
+/** Clave de icono para cada servicio. El mapa a componentes vive en la vista. */
+export type ServicioIcono = "auto" | "documento" | "escudo" | "megafono" | "llave" | "herramienta" | "brillo" | "pelicula" | "ventana" | "chat" | "lista";
+
+export type Servicio = { titulo: string; icono: ServicioIcono };
 
 export type Company = {
   slug: string;
@@ -29,7 +35,7 @@ export type Company = {
   resumen: string;
   /** Qué hace la empresa, desarrollado. */
   queHace: string[];
-  servicios: string[];
+  servicios: Servicio[];
   filosofia: { arquetipo: string; enunciado: string; como: string };
   /** Cómo puede esta empresa atender a otra empresa (agencias, flotillas, corporativos). */
   paraEmpresas: { necesidad: string; respuesta: string };
@@ -58,11 +64,11 @@ export const companies: Company[] = [
       "Cada unidad se revisa en sus condiciones físicas, mecánicas y legales antes de integrarse al catálogo. Para quien vende, el diagnóstico se entrega en un plazo no mayor a tres horas, con el valor comercial real de la unidad y un convenio de promoción si la persona está de acuerdo.",
     ],
     servicios: [
-      "Venta de autos premium seleccionados",
-      "Compra directa de unidades",
-      "Consignación y promoción en catálogo",
-      "Valuación física, mecánica y legal",
-      "Acompañamiento en trámites y entrega",
+      { titulo: "Venta de autos premium seleccionados", icono: "auto" },
+      { titulo: "Compra directa de unidades", icono: "documento" },
+      { titulo: "Valuación física, mecánica y legal", icono: "escudo" },
+      { titulo: "Acompañamiento en trámites y entrega", icono: "llave" },
+      { titulo: "Consignación y promoción en catálogo", icono: "megafono" },
     ],
     filosofia: {
       arquetipo: "El Gobernante",
@@ -100,15 +106,15 @@ export const companies: Company[] = [
       "Trabaja con soluciones XPEL para proteger pintura, cristales y acabados, y complementa con lavado premium, corrección de pintura, descontaminado, mecánica general y reemplazo de componentes específicos.",
     ],
     servicios: [
-      "PPF, película protectora de pintura",
-      "Recubrimiento cerámico",
-      "Polarizado premium",
-      "WPF, protección para parabrisas",
-      "Lavado premium y detallado interior y exterior",
-      "Corrección de pintura",
-      "Descontaminado y protección",
-      "Mecánica general y diagnóstico",
-      "Reemplazo de calipers",
+      { titulo: "PPF, película protectora de pintura", icono: "pelicula" },
+      { titulo: "Recubrimiento cerámico", icono: "brillo" },
+      { titulo: "Polarizado premium", icono: "ventana" },
+      { titulo: "WPF, protección para parabrisas", icono: "escudo" },
+      { titulo: "Lavado premium y detallado interior y exterior", icono: "brillo" },
+      { titulo: "Corrección de pintura", icono: "pelicula" },
+      { titulo: "Descontaminado y protección", icono: "escudo" },
+      { titulo: "Mecánica general y diagnóstico", icono: "herramienta" },
+      { titulo: "Reemplazo de calipers", icono: "herramienta" },
     ],
     filosofia: {
       arquetipo: "El Cuidador",
@@ -124,7 +130,7 @@ export const companies: Company[] = [
     logo: "/egd-aftersale/logotipo-egd-aftersale.svg",
     isotipo: "/egd-aftersale/isotipo-egd-aftersale.svg",
     image: "/images/egd-aftersale/detalle-en-proceso.png",
-    galeria: ["/egd-aftersale/imgs/2.0.png", "/egd-aftersale/imgs/4.0.png", "/egd-aftersale/imgs/6.0.png"],
+    galeria: ["/images/services/mantenimiento.png", "/egd-aftersale/imgs/4.0.png", "/egd-aftersale/imgs/6.0.png"],
   },
   {
     slug: "eb-cars",
@@ -140,11 +146,11 @@ export const companies: Company[] = [
       "Su diferencia está en el trato. Explica cada paso con un lenguaje simple, compara opciones abiertamente y acompaña la decisión sin presión de venta, apoyada en el mismo respaldo técnico del grupo.",
     ],
     servicios: [
-      "Venta de autos seminuevos y accesibles",
-      "Compra y recepción de unidades",
-      "Asesoría para primera compra",
-      "Comparativa de opciones por presupuesto",
-      "Acompañamiento en trámites",
+      { titulo: "Venta de autos seminuevos y accesibles", icono: "auto" },
+      { titulo: "Compra y recepción de unidades", icono: "documento" },
+      { titulo: "Asesoría para primera compra", icono: "chat" },
+      { titulo: "Comparativa de opciones por presupuesto", icono: "lista" },
+      { titulo: "Acompañamiento en trámites", icono: "llave" },
     ],
     filosofia: {
       arquetipo: "El Amigo",
@@ -182,11 +188,11 @@ export const companies: Company[] = [
       "El trabajo se plantea para que el auto conserve su comportamiento y su interior: la instalación cuida el diseño original, y el grupo se queda a cargo del mantenimiento posterior de la unidad protegida.",
     ],
     servicios: [
-      "Blindaje de unidades nuevas",
-      "Blindaje de unidades en uso",
-      "Asesoría de nivel de protección",
-      "Venta de unidades ya blindadas",
-      "Mantenimiento de vehículos protegidos",
+      { titulo: "Blindaje de unidades nuevas", icono: "escudo" },
+      { titulo: "Blindaje de unidades en uso", icono: "pelicula" },
+      { titulo: "Asesoría de nivel de protección", icono: "chat" },
+      { titulo: "Venta de unidades ya blindadas", icono: "auto" },
+      { titulo: "Mantenimiento de vehículos protegidos", icono: "herramienta" },
     ],
     filosofia: {
       arquetipo: "Personalidad provisional autorizada",
@@ -209,6 +215,3 @@ export const companyBySlug = (slug: string) => companies.find((company) => compa
 
 /** Las otras empresas del grupo, para el bloque de navegación cruzada. */
 export const otherCompanies = (slug: string) => companies.filter((company) => company.slug !== slug);
-
-/** Sede que se muestra mientras la dirección propia de una empresa no esté confirmada. */
-export const sedeDeGrupo = matriz;

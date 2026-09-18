@@ -53,9 +53,38 @@ sesión `2026-09-17_contenido-de-empresas-b2b-y-reticula.md`.
 
 ## Estructura de una página de empresa
 
-Cada empresa responde, en este orden, a lo que pidió el cliente: hero, qué hace
-y servicios, qué tipo de autos vende (si comercializa unidades), proceso,
-filosofía, para empresas, galería, dónde estamos y navegación a las otras tres.
+Cada empresa responde, en este orden, a lo que pidió el cliente: hero, qué hace,
+servicios, qué tipo de autos vende (si comercializa unidades), proceso,
+filosofía, para empresas, galería y navegación a las otras tres.
+
+`CompanyOverviewSection` es **una sola sección** con dos bloques: «Qué hace» con
+fotografía a la derecha y, debajo, «Servicios» en tarjetas con icono. Acepta `imagen` para no repetir la
+del hero, `leyenda` para el acento editorial sobre la foto, y `mostrarServicios`
+para apagarlo donde la página ya desarrolla los servicios aparte.
+
+Cada servicio declara una clave de icono en `companies.ts` (`ServicioIcono`); el
+mapa a componentes de Phosphor vive en `CompanySections.tsx`. Si agregas un
+servicio, agrégale su clave. Con un número impar, la última tarjeta ocupa la fila
+completa para no dejar una celda vacía.
+
+## Muro de marcas del catálogo
+
+`CompanyCatalogSection` rinde las marcas como marcas denominativas, no como
+logotipos: no hay assets aprobados. Para activar uno, coloca el SVG en
+`public/marcas/` y regístralo en `logotiposDeMarca`, dentro de
+`CompanySections.tsx`, con el nombre exacto que usa `companies.ts`.
+
+No traigas los logotipos de un CDN de terceros. Son marcas registradas de otras
+empresas y conviene que el cliente decida qué se publica y con qué permiso. De
+paso: Simple Icons no tiene Mercedes-Benz, Land Rover, Jaguar ni GMC, así que ese
+camino dejaría cuatro huecos.
+
+**La ubicación no va en las páginas de empresa.** Las cuatro comparten hoy la
+sede del grupo, así que el bloque se repetía idéntico cinco veces. Vive solo en
+Nosotros (la composición «León, Guanajuato») y en Contacto (dirección, horarios
+y canales). El cliente pidió ubicaciones por empresa: cuando entregue direcciones
+propias habrá que reponer algo ahí, y el campo `ubicacionPropiaPorConfirmar` de
+`companies.ts` sigue marcando a quién le falta.
 Los bloques compartidos viven en `app/features/empresas/CompanySections.tsx` y
 reciben el color de marca por `company.accent`, en línea.
 
@@ -128,7 +157,8 @@ respeta estas reglas:
   filete, la siguiente sección usa otra cosa: retícula asimétrica, cita
   destacada, tira numerada, banda a sangre o tipografía sobre filetes.
 - Las tarjetas se usan solo cuando la elevación comunica jerarquía real. Por
-  omisión, agrupa con `border-t`, filetes o aire.
+  omisión, agrupa con `border-t`, filetes o aire. Una composición aprobada por el
+  equipo manda sobre esta regla: ver «Composiciones aprobadas».
 - Nada de tres tarjetas iguales en fila.
 - Máximo tres rótulos en versalitas o `text-white/45` sobre titulares por página.
   Si el titular basta, no pongas rótulo.
@@ -136,3 +166,33 @@ respeta estas reglas:
 - Nada de puntos de color decorativos ni etiquetas superpuestas sobre fotografías.
 - Un solo rótulo por intención de CTA. El contacto general se llama `Contacto` en
   todo el sitio; `Plantear un proyecto` es exclusivo del bloque B2B.
+
+## Composiciones aprobadas por revisión humana
+
+Estas quedaron validadas visualmente por el equipo. No las rediseñes en una
+pasada general; si un cambio las afecta, consúltalo antes.
+
+- **Nosotros, «El valor está en la conexión entre especialidades»** (2026-09-17):
+  rótulo «Nuestra esencia», titular y dos párrafos a la izquierda con la llamada
+  «Conoce más»; a la derecha, fotografía dominante con un panel que la monta por
+  el costado. El montaje solo existe a partir de `lg`. Aprobada contra mockup.
+  (Una versión anterior de esta línea daba por aprobada la composición de cifras
+  20 / 4 / 1; fue un error de lectura y quedó sustituida por esta.)
+- **EB Cars, hero** (2026-09-17): dos mitades a sangre, sin contenedor. La
+  fotografía llega al borde del viewport y el titular vive en un bloque amarillo
+  `#F7E045` que monta sobre ella. Las otras tres empresas usan foto a sangre con
+  velo y texto encima; esta parte la composición y deja que el color trabaje.
+  El titular va en Michroma vía el token `--font-eb-cars`: es muy ancha, úsala
+  solo en titulares cortos. El amarillo y el gris `#26272C` son de su brandbook.
+- **Contacto** (2026-09-17): primero el formulario, después la información. Los
+  seis canales se agrupan por propósito en tarjetas (ubicación, ventas, oficina,
+  administración, redes) en lugar de seis filas con filete.
+- **Enlace GD, banda de pilares y bloque «Qué hace» / «Servicios»**
+  (2026-09-17): tres pilares con icono sobre el azul `#1a2368`, y el bloque de
+  qué hace con fotografía y leyenda más las tarjetas de servicio. Aprobados
+  contra mockup. El bloque es compartido, así que también rige en las otras tres
+  empresas.
+- **Nosotros, misión, visión y valores** (2026-09-17): dos tarjetas de igual
+  ancho arriba y cuatro tarjetas con icono abajo, sobre un degradado sutil y con
+  una fotografía tenue sangrando por la esquina superior derecha. Aprobada
+  contra mockup. Es la excepción a la regla de «no tarjetas por omisión».

@@ -4,6 +4,10 @@
   --font-sans: "Manrope", Arial, sans-serif;
   --font-display: "Manrope", Arial, sans-serif;
 
+  /* Tipografía principal de EB Cars según su brandbook. Es muy ancha: úsala solo
+     en titulares cortos, nunca en párrafos. */
+  --font-eb-cars: "Michroma", "Manrope", Arial, sans-serif;
+
   /* Rampa de superficie de Grupo EGD. `egd-base` es el fondo principal del sitio. */
   --color-egd-deep: #151b27;
   --color-egd-base: #1d2433;
@@ -38,6 +42,12 @@ body {
 }
 
 a { text-underline-offset: 0.2em; }
+
+/* El encabezado sticky mide 68 px: un destino de ancla debe detenerse debajo de
+   él. No uses `:target`: Lenis lee el estilo durante el clic, antes de que el
+   navegador aplique el hash, así que la regla tiene que ser incondicional.
+   Es el único mecanismo de compensación; `anchors` no lleva `offset`. */
+h1[id], h2[id], h3[id], section[id] { scroll-margin-top: 6rem; }
 ::selection { background: var(--color-egd-bone); color: var(--color-egd-base); }
 
 /* La fotografía se funde con `egd-base` en ambos extremos: el centro conserva detalle.

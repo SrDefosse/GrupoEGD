@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 
 import { companyBySlug } from "../companies";
-import { CompanyBusinessSection, CompanyLocationSection, CompanyOverviewSection, CompanyPhilosophySection, CompanySwitchSection } from "../CompanySections";
+import { CompanyBusinessSection, CompanyOverviewSection, CompanyPhilosophySection, CompanySwitchSection } from "../CompanySections";
 
 const company = companyBySlug("egd-aftersale")!;
 
@@ -15,7 +15,7 @@ export function EgdAftersalePage() {
   return <main className="bg-[#0c2447]">
     <section className="relative isolate min-h-[calc(100svh-68px)] overflow-hidden"><img src={company.image} alt="Cuidado especializado sobre la carrocería de un automóvil" className="absolute inset-0 -z-20 size-full object-cover" /><div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(7,29,62,.96),rgba(7,29,62,.68)_47%,rgba(7,29,62,.12))]" /><div className="mx-auto flex min-h-[calc(100svh-68px)] max-w-[1400px] items-end px-5 pb-16 pt-24 sm:px-8 lg:items-center lg:pb-8"><div className="max-w-3xl"><img src={company.logo} alt={company.nombre} className="max-h-14 max-w-72 brightness-0 invert" /><h1 className="mt-10 text-[clamp(2.6rem,5vw,5rem)] font-bold leading-[.96] tracking-[-.07em]">Cuidado técnico para que cada detalle se mantenga en su lugar.</h1><p className="mt-7 max-w-xl leading-8 text-white/75">El cuidado posterior de un vehículo se define en los procesos, materiales y manos que intervienen. Aquí, cada servicio busca extender su mejor versión.</p><Link to="/contacto" className="mt-9 inline-flex rounded-full border border-white/40 px-5 py-3 text-sm font-semibold hover:bg-white hover:text-[#0c2447]">Agenda una cita</Link></div></div></section>
 
-    <CompanyOverviewSection company={company} mostrarServicios={false} />
+    <CompanyOverviewSection company={company} mostrarServicios={false} imagen="/images/services/proteccion-detallado.png" />
 
     <section aria-labelledby="aftersale-lineas" className="border-t border-white/15 bg-white/[0.03]">
       <div className="mx-auto max-w-[1400px] px-5 py-24 sm:px-8 sm:py-28">
@@ -49,7 +49,6 @@ export function EgdAftersalePage() {
       </div>
     </section>
 
-    <CompanyLocationSection company={company} />
     <CompanySwitchSection slug={company.slug} />
   </main>;
 }
